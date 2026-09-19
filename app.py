@@ -14,6 +14,10 @@ logger = logging.getLogger(__name__)
 def home():
     return {"status": "alive"}
 
+@app.route("/healthz")
+def healthz():
+    return {"status": "healthy"}
+
 @app.route("/summarize", methods=["POST"])
 def summarize():
     start = time.time()
@@ -22,8 +26,9 @@ def summarize():
 
     response = client.models.generate_content(
         model="gemini-3.6-flash",
-        contents=f"Summarize in 2 sentences: {text}"
+         contents=f"Summarize in 2 sentences: {text}"
     )
+
 
     duration = round(time.time() - start, 2)
     logger.info(f"Request completed in {duration}s")
@@ -32,4 +37,3 @@ def summarize():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
-    

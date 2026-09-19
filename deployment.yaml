@@ -18,6 +18,12 @@ spec:
         imagePullPolicy: Never
         ports:
         - containerPort: 5000
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 5000
+          initialDelaySeconds: 3
+          periodSeconds: 5
         env:
         - name: GEMINI_API_KEY
           valueFrom:
@@ -36,3 +42,4 @@ spec:
   - port: 5000
     targetPort: 5000
   type: NodePort
+  
